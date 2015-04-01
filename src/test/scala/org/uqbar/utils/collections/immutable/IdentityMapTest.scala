@@ -113,5 +113,20 @@ class IdentityMapTest extends FreeSpec with Matchers {
 				}
 			}
 		}
+		
+		"==" - {
+			"two maps with identical entries should be equal" in {
+				IdentityMap(key1 -> 1, key2 -> 2) should be (map)
+			}
+			"two maps with equal, but non-identical entries, should not be equal" in {
+				IdentityMap(key1 -> 1, key3 -> 2) should not(be (map))
+			}
+		}
+		
+		"hashCode" - {
+			"two maps with identical entries should have the same hashCode" in {
+				IdentityMap(key1 -> 1, key2 -> 2).hashCode should be (map.hashCode)
+			}
+		}
 	}
 }
