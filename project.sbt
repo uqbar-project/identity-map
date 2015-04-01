@@ -1,4 +1,4 @@
-name := "identitymap"
+name := "identity-map"
 
 description := "An immutable Map based on identity"
 
