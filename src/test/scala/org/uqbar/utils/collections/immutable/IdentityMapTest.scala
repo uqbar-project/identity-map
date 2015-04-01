@@ -1,6 +1,5 @@
 package org.uqbar.utils.collections.immutable
 
-
 import org.scalatest.FreeSpec
 import org.scalatest.Matchers
 
@@ -86,8 +85,8 @@ class IdentityMapTest extends FreeSpec with Matchers {
 				}
 
 				"should not iterate any entry pair" in {
-					var count = 0 
-					IdentityMap[Key,Int]().iterator.foreach(_ => count += 1)
+					var count = 0
+					IdentityMap[Key, Int]().iterator.foreach(_ => count += 1)
 
 					count should be (0)
 				}
@@ -113,7 +112,7 @@ class IdentityMapTest extends FreeSpec with Matchers {
 				}
 			}
 		}
-		
+
 		"==" - {
 			"two maps with identical entries should be equal" in {
 				IdentityMap(key1 -> 1, key2 -> 2) should be (map)
@@ -122,11 +121,17 @@ class IdentityMapTest extends FreeSpec with Matchers {
 				IdentityMap(key1 -> 1, key3 -> 2) should not(be (map))
 			}
 		}
-		
+
 		"hashCode" - {
 			"two maps with identical entries should have the same hashCode" in {
 				IdentityMap(key1 -> 1, key2 -> 2).hashCode should be (map.hashCode)
 			}
+		}
+
+		"transform operations return type should be also an IdentityMap" - {
+			val mapedMap: IdentityMap[Key, Int] = map.map{ case (k, v) => (k, v + 1) }
+			val filteredMap: IdentityMap[Key, Int] = map.filter{ case (_, v) => v > 1 }
+			val droppedMap: IdentityMap[Key, Int] = map.drop(1)
 		}
 	}
 }

@@ -1,18 +1,22 @@
 package org.uqbar.utils.collections.immutable
 
 import java.util.IdentityHashMap
+
+import scala.collection.generic.CanBuildFrom
 import scala.collection.generic.MapFactory
-import scala.collection.immutable.MapLike
 import scala.collection.immutable.Map
+import scala.collection.immutable.MapLike
 
 object IdentityMap extends MapFactory[IdentityMap] {
-	def empty[K,V] = new IdentityMap[K,V]
+	def empty[K, V] = new IdentityMap[K, V]
+
+	implicit def canBuildFrom[K, V]: CanBuildFrom[Coll, (K, V), IdentityMap[K, V]] = new MapCanBuildFrom[K, V]
 }
 
-class IdentityMap[K, +V](inner: IdentityHashMap[K, V] = new IdentityHashMap[K,V]) extends Map[K, V] with MapLike[K,V,IdentityMap[K,V]] {
+class IdentityMap[K, +V](inner: IdentityHashMap[K, V] = new IdentityHashMap[K, V]) extends Map[K, V] with MapLike[K, V, IdentityMap[K, V]] {
 
-	override def empty = IdentityMap.empty
-	
+	override def empty = IdentityMap.empty[K, V]
+
 	override def size = inner.size
 
 	def get(key: K) = if (inner containsKey key) Some(inner get key) else None
@@ -39,3 +43,4 @@ class IdentityMap[K, +V](inner: IdentityHashMap[K, V] = new IdentityHashMap[K,V]
 	}
 
 }
+
